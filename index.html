@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>INFINITY - Delivery Boy Payment Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #004d40, #00695c);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: fadeZoom 1.5s ease-in-out;
+    }
+
+    @keyframes fadeZoom {
+      0% { opacity: 0; transform: scale(0.95); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .calculator {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 35px 25px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      width: 90%;
+      max-width: 480px;
+      animation: bounceIn 1.2s ease forwards;
+    }
+
+    @keyframes bounceIn {
+      0% { transform: scale(0.9); opacity: 0; }
+      60% { transform: scale(1.05); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+
+    .logo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .logo-text {
+      font-size: 36px;
+      font-weight: bold;
+      background: linear-gradient(270deg, yellow, black, teal, yellow);
+      background-size: 600% 600%;
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      animation: infinityGradient 6s ease infinite, infinityGlow 2s infinite alternate;
+    }
+
+    @keyframes infinityGradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes infinityGlow {
+      from { text-shadow: 0 0 6px teal; }
+      to { text-shadow: 0 0 16px yellow; }
+    }
+
+    .logo-img {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: transparent;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+      text-align: center;
+      color: #004d40;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      color: #222;
+      font-weight: 600;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      font-size: 16px;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    input[type="number"]:focus {
+      border-color: teal;
+      box-shadow: 0 0 12px rgba(0, 150, 136, 0.5);
+    }
+
+    button {
+      padding: 14px 20px;
+      border: none;
+      border-radius: 12px;
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .calculate-btn {
+      width: 100%;
+      margin-top: 25px;
+      background: linear-gradient(135deg, teal, #004d40);
+      box-shadow: 0 0 15px rgba(0, 105, 92, 0.5);
+      animation: floatPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes floatPulse {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-3px); }
+    }
+
+    .calculate-btn:hover {
+      background: linear-gradient(135deg, #00796b, #002f27);
+      transform: scale(1.03);
+    }
+
+    .clear-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 15px;
+    }
+
+    .clear-btn {
+      padding: 6px 18px;
+      font-size: 16px;
+      border-radius: 8px;
+      background: yellow;
+      color: black;
+      font-weight: bold;
+      box-shadow: 0 0 8px rgba(255, 255, 0, 0.6);
+      transition: all 0.3s ease;
+    }
+
+    .clear-btn:hover {
+      background: black;
+      color: yellow;
+      box-shadow: 0 0 15px teal;
+      transform: scale(1.1);
+    }
+
+    .result {
+      margin-top: 25px;
+      background: linear-gradient(135deg, #fff59d, #ffe082);
+      padding: 18px;
+      border-radius: 12px;
+      font-size: 20px;
+      text-align: center;
+      color: #004d40;
+      font-weight: bold;
+      opacity: 0;
+      transform: scale(0.9);
+      animation: none;
+    }
+
+    @keyframes fadeInResult {
+      to {
+        opacity: 1;
+        transform: scale(1.05);
+      }
+    }
+
+    @media screen and (max-width: 500px) {
+      .logo-text {
+        font-size: 28px;
+      }
+
+      h2 {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="calculator">
+    <div class="logo">
+      <span class="logo-text">INFINITY</span>
+      <img src="logo.png" alt="Logo" class="logo-img">
+    </div>
+
+    <h2>Delivery Payment Calculator</h2>
+
+    <label for="cityOrders">City Orders (₹20 each)</label>
+    <input type="number" id="cityOrders" placeholder="e.g. 60" min="0">
+
+    <label for="outsideOrders">Outside City Orders (₹30 each)</label>
+    <input type="number" id="outsideOrders" placeholder="e.g. 10" min="0">
+
+    <label for="days">No. of Days</label>
+    <input type="number" id="days" placeholder="e.g. 30" min="0">
+
+    <button class="calculate-btn" onclick="calculatePayment()">Calculate</button>
+
+    <div class="clear-container">
+      <button class="clear-btn" onclick="clearFields()">Clear</button>
+    </div>
+
+    <div class="result" id="resultBox">Total Amount: ₹0</div>
+  </div>
+
+  <script>
+    function calculatePayment() {
+      const city = parseInt(document.getElementById('cityOrders').value) || 0;
+      const outside = parseInt(document.getElementById('outsideOrders').value) || 0;
+      const total = (city * 20) + (outside * 30);
+
+      const resultBox = document.getElementById('resultBox');
+      resultBox.innerText = "Total Amount: ₹" + total;
+      resultBox.style.animation = 'none';
+      void resultBox.offsetWidth;
+      resultBox.style.animation = 'fadeInResult 0.6s ease forwards';
+    }
+
+    function clearFields() {
+      document.getElementById('cityOrders').value = '';
+      document.getElementById('outsideOrders').value = '';
+      document.getElementById('days').value = '';
+      const resultBox = document.getElementById('resultBox');
+      resultBox.innerText = 'Total Amount: ₹0';
+      resultBox.style.animation = 'none';
+    }
+  </script>
+
+</body>
+</html>
